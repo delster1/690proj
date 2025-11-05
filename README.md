@@ -23,6 +23,12 @@ On picture taken:
 2. Output classification
 3. If new picture present, start inference, else wait until picture taken
 
+#### Training Data:
+Only using a handful of animals initially
+
+#### Model:
+CNN 
+
 ## Tentative Plan / List of things todo
 
 1. Find Training Data source
