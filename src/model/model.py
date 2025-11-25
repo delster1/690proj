@@ -1,7 +1,7 @@
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-NUM_CLASSES = 10
+NUM_CLASSES = 3
 
 
 class CNN:
