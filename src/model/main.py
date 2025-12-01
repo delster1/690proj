@@ -1,10 +1,18 @@
 from yolo_model import YoloModel
 
 def main():
-    model = YoloModel(classes=10)
-    model.set_data_generators(train_gen, val_gen)
+    model = YoloModel("yolov8n.pt")
+
+    print(">>> Training model...")
     model.train(epochs=50)
-    model.shrink_model()
+
+    print(">>> Exporting shrunk INT8 model...")
+    model.export_tflite()
+
+    print(">>> Testing inference...")
+    results = model.infer("dataset/images/val/some_image.jpg")
+    print(results)
 
 if __name__ == "__main__":
     main()
+
