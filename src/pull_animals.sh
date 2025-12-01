@@ -2,8 +2,8 @@
 
 set -e 
 
-TARGET_DIR=animals/images/animals-10
-DATASET_NAME=alessiocorrado99/animals10
+TARGET_DIR=animals/images/animals-detection-images
+DATASET_NAME=antoreepjana/animals-detection-images-dataset
 ZIP_NAME="animals10.zip"
 
 if ! command -v kaggle &> /dev/null; then
