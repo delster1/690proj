@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import tensorflow as tf
+import albumentations as A
 
 class YoloModel:
 
@@ -10,11 +11,24 @@ class YoloModel:
         self.model = YOLO(model_type)
 
     def train(self, data="dataset/data.yaml", epochs=50):
-        self.model.train(
+        seimport albumentations as A
+
+        transforms = A.Compose([
+            A.HorizontalFlip(p=0.5),
+            A.RandomBrightnessContrast(p=0.5),
+            A.HueSaturationValue(p=0.4),
+            A.GaussNoise(p=0.3),
+            A.Blur(p=0.2),
+            A.Cutout(num_holes=2, max_h_size=32, max_w_size=32, p=0.2),
+        ])
+
+        lf.model.train(
             data=data,
             epochs=epochs,
-            imgsz=640,             # recommended
+            imgsz=640,           
             batch=8,
+            qat=True,
+            transform=transforms
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 
