@@ -17,8 +17,7 @@ class YoloModel:
             A.RandomBrightnessContrast(p=0.5),
             A.HueSaturationValue(p=0.4),
             A.GaussNoise(p=0.3),
-            A.Blur(p=0.2),
-            A.Cutout(num_holes=2, max_h_size=32, max_w_size=32, p=0.2),
+            A.Blur(p=0.2)
         ])
 
         # # Freeze EVERYTHING
@@ -40,7 +39,7 @@ class YoloModel:
             epochs=epochs,
             imgsz=640,           
             batch=8,
-            transform=transforms,
+            augmentations=transforms,
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 
