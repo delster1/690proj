@@ -11,7 +11,6 @@ class YoloModel:
         self.model = YOLO(model_type)
 
     def train(self, data="dataset/data.yaml", epochs=50):
-        seimport albumentations as A
 
         transforms = A.Compose([
             A.HorizontalFlip(p=0.5),
@@ -22,12 +21,20 @@ class YoloModel:
             A.Cutout(num_holes=2, max_h_size=32, max_w_size=32, p=0.2),
         ])
 
-        lf.model.train(
+        # Freeze EVERYTHING
+        for param in self.model.parameters():
+            param.requires_grad = False
+
+        # Unfreeze LAST layer (detection head)
+        for param in self.model[-1].parameters():
+            param.requires_grad = True
+
+        self.model.train(
             data=data,
             epochs=epochs,
             imgsz=640,           
             batch=8,
-            transform=transforms
+            transform=transforms,
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 
