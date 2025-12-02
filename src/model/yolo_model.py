@@ -40,7 +40,7 @@ class YoloModel:
             epochs=epochs,
             imgsz=640,           
             batch=8,
-            transform=transforms
+            transform=transforms,
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 
