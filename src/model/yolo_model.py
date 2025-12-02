@@ -21,20 +21,26 @@ class YoloModel:
             A.Cutout(num_holes=2, max_h_size=32, max_w_size=32, p=0.2),
         ])
 
-        # Freeze EVERYTHING
-        for param in self.model.parameters():
-            param.requires_grad = False
+        # # Freeze EVERYTHING
+        # for param in self.model.parameters():
+        #     param.requires_grad = False
+        #
+        # # Unfreeze LAST layer (detection head)
+        # for param in self.model[-1].parameters():
+        #     param.requires_grad = True
 
-        # Unfreeze LAST layer (detection head)
-        for param in self.model[-1].parameters():
-            param.requires_grad = True
+
+        # freeze backbone layers
+        for name, module in self.model.named_modules():
+            if "backbone" in name:
+                module.requires_grad_(False)
 
         self.model.train(
             data=data,
             epochs=epochs,
             imgsz=640,           
             batch=8,
-            transform=transforms,
+            transform=transforms
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 
