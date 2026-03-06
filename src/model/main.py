@@ -4,7 +4,7 @@ def main():
     model = YoloModel("yolov8n.pt")
 
     print(">>> Training model...")
-    model.train(epochs=50)
+    model.train(epochs=5)
 
     print(">>> Exporting shrunk INT8 model...")
     model.export_tflite()

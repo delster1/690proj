@@ -1,5 +1,6 @@
 from ultralytics import YOLO
 import tensorflow as tf
+import albumentations as A
 
 class YoloModel:
 
@@ -10,11 +11,35 @@ class YoloModel:
         self.model = YOLO(model_type)
 
     def train(self, data="dataset/data.yaml", epochs=50):
+
+        transforms = A.Compose([
+            A.HorizontalFlip(p=0.5),
+            A.RandomBrightnessContrast(p=0.5),
+            A.HueSaturationValue(p=0.4),
+            A.GaussNoise(p=0.3),
+            A.Blur(p=0.2)
+        ])
+
+        # # Freeze EVERYTHING
+        # for param in self.model.parameters():
+        #     param.requires_grad = False
+        #
+        # # Unfreeze LAST layer (detection head)
+        # for param in self.model[-1].parameters():
+        #     param.requires_grad = True
+
+
+        # freeze backbone layers
+        for name, module in self.model.named_modules():
+            if "backbone" in name:
+                module.requires_grad_(False)
+
         self.model.train(
             data=data,
             epochs=epochs,
-            imgsz=640,             # recommended
+            imgsz=640,           
             batch=8,
+            augmentations=transforms,
             device=0 if tf.config.list_physical_devices('GPU') else 'cpu'
         )
 

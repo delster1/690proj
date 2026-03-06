@@ -4,8 +4,8 @@ import shutil
 import random
 from pathlib import Path
 
-SOURCE_DIR = "animals/images/animals-detection-images"
-OUTPUT_DIR = "animals/images/dataset"
+SOURCE_DIR = "./animals"
+OUTPUT_DIR = "./dataset"
 TRAIN_SPLIT = 0.8
 
 def main():
